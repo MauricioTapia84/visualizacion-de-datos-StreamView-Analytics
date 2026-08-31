@@ -9,43 +9,58 @@ source_files:
 
 ## Resumen ejecutivo
 
-Objetivo: Entregar una visión ejecutiva del catálogo para apoyar decisiones de adquisición y marketing. Este primer entregable sintetiza los hallazgos exploratorios iniciales y propone 3 acciones prioritarias.
+Objetivo: entregar una visión ejecutiva del catálogo para apoyar decisiones de adquisición y marketing. El EDA analiza 32.000 contenidos incorporados entre 2010 y 2025.
 
-Principales hallazgos (borrador)
+Principales hallazgos
 
-- Hallazgo A — Composición del catálogo: las series representan una parte significativa del catálogo en número y crecen en diversidad de idiomas.
-- Hallazgo B — Géneros dominantes: los géneros X, Y y Z aparecen con mayor frecuencia (detallar tras cálculo).
-- Hallazgo C — Popularidad y concentración: un pequeño porcentaje de títulos concentra la mayoría de la popularidad medida por el índice `popularity`.
+- Hallazgo A — Drama lidera las asociaciones temáticas con 14.688 contenidos, seguido por Comedy y Animation.
+- Hallazgo B — The Late Show with Stephen Colbert lidera el índice de popularidad con 6.421,92; el índice no representa reproducciones.
+- Hallazgo C — En 4.847 películas con datos financieros válidos, la correlación budget-revenue es 0,730, pero el ROI mediano es -22,2%.
 
-Recomendación ejecutiva (borrador)
+Recomendaciones ejecutivas
 
-Priorizar adquisiciones en géneros con alta popularidad relativa y mercados donde la proporción de contenido local es baja pero la demanda potencial es alta.
+1. Priorizar análisis de adquisición en géneros con alta popularidad relativa y baja saturación, diferenciando películas y series.
+2. Usar Brasil, Colombia, Chile y México como hipótesis de investigación, validando demanda, costos y competencia antes de invertir.
+3. Evaluar títulos financieros individualmente: el presupuesto se relaciona con ingresos, pero no garantiza rentabilidad.
 
 ## Metodología
 
-- Limpieza mínima: unificación de formatos de fecha, normalización de países y separación de múltiples géneros por título (registro derivado).
-- Alcance: todos los registros disponibles en los dos CSV proporcionados; análisis financiero limitado a registros con `budget` y `revenue` no nulos (películas).
+- Limpieza inicial reproducible en [EP1_initial_cleaning_colab.ipynb](../../notebooks/EP1_initial_cleaning_colab.ipynb).
+- EDA independiente en [EP1_eda_catalogo.ipynb](../../notebooks/EP1_eda_catalogo.ipynb), con separación de géneros, países e idiomas sin duplicar KPIs de contenidos.
+- Alcance: 16.000 películas y 16.000 series. Las finanzas incluyen únicamente películas con `budget` y `revenue` válidos y `budget > 0`.
 
-## KPIs calculables (a completar con números)
+## KPIs calculados
 
-- Total de contenidos: 
-- Nº de películas / Nº de series: 
-- Top 10 títulos por `popularity` (lista):
-- Popularidad promedio por género (tabla):
-- Presupuesto promedio y revenue total (películas con datos):
+- Total de contenidos: 32.000.
+- Películas / series: 16.000 / 16.000.
+- Países / idiomas / géneros: 147 / 83 / 28.
+- Popularidad promedio / calificación promedio: 42,62 / 5,69.
+- Presupuesto promedio: 28.939.280; ingresos totales: 367.371.400.000.
+- Cobertura financiera: 4.847 de 16.000 películas, 30,3%.
+- Tablas detalladas: `data/processed/`.
 
-## Visualizaciones propuestas (incluir en EP1)
+## Visualizaciones seleccionadas
 
-- Distribución por tipo (pastel/barras).
-- Barras: Top 10 títulos por `popularity`.
-- Treemap por género y país.
-- Series temporales: `date_added` vs. número de contenidos añadidos por año.
+- Ranking de popularidad separado entre películas y series.
+- Géneros y países comparados en paneles independientes por tipo.
+- Evolución anual en paneles separados por tipo.
+- Dispersión presupuesto-ingresos con escala logarítmica.
+- No se incluye una gráfica de composición independiente: la información se presenta como KPI.
 
-## Próximos pasos inmediatos
+Las figuras están en `images/` y la matriz de uso para el dashboard en `data/processed/dashboard_visual_plan.csv`.
 
-1. Ejecutar EDA automático y calcular KPIs básicos (comando sugerido en Python).
-2. Insertar cifras reales en este informe y generar figuras.
-3. Preparar `EP1_informe_ejecutivo.pdf` y `EP1_informe_ejecutivo_short.pdf` (resumen para Directorio).
+## Limitaciones
+
+- `popularity` es un índice relativo, no una métrica de reproducciones.
+- La serie temporal es plana porque el dataset contiene 1.000 películas y 1.000 series por año.
+- Los países y géneros son asociaciones; un título puede aparecer en más de una categoría.
+- El proxy de mercados no sustituye una investigación de demanda.
+
+## Próximos pasos
+
+1. Ejecutar `streamlit run dashboard/app.py` y revisar el dashboard.
+2. Realizar la prueba de usabilidad definida en [EP3_usabilidad_evaluacion.md](EP3_usabilidad_evaluacion.md).
+3. Exportar este informe a PDF y preparar la presentación ejecutiva.
 
 ## Comandos sugeridos (rápido) para EDA en Python
 
