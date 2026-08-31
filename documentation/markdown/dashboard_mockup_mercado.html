@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mockup Dashboard - Mercado</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f3f4f6; color: #111827; }
+    .page { max-width: 1280px; margin: 20px auto; background: white; padding: 20px; border: 1px solid #e5e7eb; border-radius: 14px; }
+    .header { margin-bottom: 18px; }
+    .header h1 { margin: 0; font-size: 28px; }
+    .header p { margin: 8px 0 0; color: #4b5563; }
+    .filters { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:18px; }
+    .chip { border:1px solid #d1d5db; padding:8px 14px; border-radius:8px; background:#f9fafb; font-size:12px; font-weight:600; }
+    .grid { display:grid; grid-template-columns: 1.3fr 1fr; gap:18px; }
+    .panel { background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; padding:16px; }
+    .panel h3 { margin:0 0 12px; font-size:18px; }
+    .map-box { height:260px; border:1px dashed #d1d5db; border-radius:10px; background: linear-gradient(135deg,#ecfeff,#dbeafe); position:relative; overflow:hidden; }
+    .map-box::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 20% 30%, rgba(59,130,246,0.35), transparent 12%), radial-gradient(circle at 60% 60%, rgba(16,185,129,0.35), transparent 18%); }
+    .spot { position:absolute; width:12px; height:12px; background:#2563eb; border-radius:50%; box-shadow:0 0 0 4px rgba(37,99,235,0.2); }
+    .spot.a { left: 28%; top: 38%; }
+    .spot.b { left: 48%; top: 46%; }
+    .spot.c { left: 62%; top: 54%; }
+    .spot.d { left: 74%; top: 40%; }
+    .bars { display:flex; align-items:flex-end; height:200px; gap:10px; padding-top:12px; }
+    .bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; }
+    .bar { width:100%; max-width:44px; border-radius:8px 8px 0 0; background:linear-gradient(180deg,#a78bfa,#6d28d9); }
+    .bar-label { font-size:11px; color:#4b5563; }
+    .small-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; }
+    .line-area { height:180px; border:1px dashed #d1d5db; border-radius:10px; background:linear-gradient(180deg,#f0fdf4,#ecfeff); position:relative; }
+    .line-area::before { content:""; position:absolute; inset:18px 18px 18px 18px; border-radius:8px; background:linear-gradient(180deg, transparent 0%, transparent 100%); border:1px solid rgba(0,0,0,0.08); }
+    .line-area::after { content:""; position:absolute; left:18px; right:18px; bottom:42px; height:2px; background:#2563eb; transform:skewY(-8deg); box-shadow: 0 18px 0 0 rgba(37,99,235,0.3), 0 36px 0 0 rgba(16,185,129,0.3); }
+    @media (max-width: 900px) { .grid, .small-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <h1>Mercado y catálogo</h1>
+      <p>Distribución geográfica, diversidad de idiomas y evolución del portafolio.</p>
+    </div>
+    <div class="filters">
+      <div class="chip">Tipo</div>
+      <div class="chip">País</div>
+      <div class="chip">Género</div>
+      <div class="chip">Año</div>
+      <div class="chip">Idioma</div>
+    </div>
+
+    <div class="grid">
+      <div class="panel">
+        <h3>Concentración por país</h3>
+        <div class="map-box">
+          <span class="spot a"></span>
+          <span class="spot b"></span>
+          <span class="spot c"></span>
+          <span class="spot d"></span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Idiomas más relevantes</h3>
+        <div class="bars">
+          <div class="bar-col"><div class="bar" style="height: 88%"></div><div class="bar-label">EN</div></div>
+          <div class="bar-col"><div class="bar" style="height: 72%"></div><div class="bar-label">ES</div></div>
+          <div class="bar-col"><div class="bar" style="height: 62%"></div><div class="bar-label">FR</div></div>
+          <div class="bar-col"><div class="bar" style="height: 50%"></div><div class="bar-label">JA</div></div>
+          <div class="bar-col"><div class="bar" style="height: 42%"></div><div class="bar-label">KO</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="small-grid">
+      <div class="panel">
+        <h3>Géneros por mercado</h3>
+        <div class="bars">
+          <div class="bar-col"><div class="bar" style="height: 82%"></div><div class="bar-label">Drama</div></div>
+          <div class="bar-col"><div class="bar" style="height: 68%"></div><div class="bar-label">Comedy</div></div>
+          <div class="bar-col"><div class="bar" style="height: 55%"></div><div class="bar-label">Action</div></div>
+          <div class="bar-col"><div class="bar" style="height: 45%"></div><div class="bar-label">Doc</div></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Evolución anual</h3>
+        <div class="line-area"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
