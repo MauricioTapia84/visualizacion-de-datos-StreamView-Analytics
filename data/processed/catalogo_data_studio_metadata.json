@@ -1,0 +1,36 @@
+{
+  "generated_at_utc": "2026-08-31T20:16:16.103412Z",
+  "source_files": [
+    "C:\\Users\\admin\\Documents\\GitHub\\visualizacion-de-datos-StreamView-Analytics\\data\\netflix_movies_detailed_up_to_2025.csv",
+    "C:\\Users\\admin\\Documents\\GitHub\\visualizacion-de-datos-StreamView-Analytics\\data\\netflix_tv_shows_detailed_up_to_2025.csv"
+  ],
+  "output_file": "C:\\Users\\admin\\Documents\\GitHub\\visualizacion-de-datos-StreamView-Analytics\\data\\processed\\catalogo_data_studio.csv",
+  "rows_total": 32000,
+  "rows_movies": 16000,
+  "rows_tv": 16000,
+  "columns": [
+    "show_id",
+    "type",
+    "title",
+    "director",
+    "cast",
+    "country",
+    "date_added",
+    "release_year",
+    "rating",
+    "duration",
+    "genres",
+    "language",
+    "description",
+    "popularity",
+    "vote_count",
+    "vote_average",
+    "budget",
+    "revenue"
+  ],
+  "notes": [
+    "The schema is normalized so both movies and TV shows can be loaded in Data Studio without column mismatch errors.",
+    "Budget and revenue are kept in the unified schema, but are null for TV show records because the original dataset does not include them.",
+    "This file is the canonical dataset to be used by the Data Studio dashboard."
+  ]
+}
