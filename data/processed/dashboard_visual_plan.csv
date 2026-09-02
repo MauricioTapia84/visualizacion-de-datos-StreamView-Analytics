@@ -1,7 +1,0 @@
-audiencia,pregunta,visual_recomendado,variables,filtros,decision,prioridad
-Directorio,¿Cómo se compone el catálogo?,KPI cards + barras comparativas,"type, contenidos","periodo, país, género",balancear inversión entre películas y series,Alta
-Marketing,¿Qué títulos tienen mayor interés relativo?,ranking horizontal con selector de tipo,"title, popularity, vote_average, vote_count","Movie/TV Show, país, género, año",seleccionar títulos para campañas,Alta
-Contenidos,¿Qué géneros dominan en cada tipo?,barras agrupadas o small multiples,"genres, type, contenidos, popularidad_promedio","tipo, país, idioma",detectar saturación y espacios de adquisición,Alta
-Contenidos,¿Qué mercados tienen oferta y oportunidad?,mapa coroplético + tabla de priorización,"country, contenidos, oportunidad_proxy","tipo, género, idioma, mínimo de contenidos",priorizar investigación de mercados,Alta
-Directorio,¿Cómo se relacionan presupuesto e ingresos?,dispersión logarítmica con línea de referencia,"budget, revenue, roi_approx","año, rango de presupuesto, ROI",evaluar riesgo financiero de adquisiciones,Media
-Contenidos,¿Cómo cambia el catálogo en el tiempo?,líneas separadas por tipo + selector temporal,"added_year, type, contenidos","rango de años, tipo",identificar cambios de estrategia de incorporación,Media
