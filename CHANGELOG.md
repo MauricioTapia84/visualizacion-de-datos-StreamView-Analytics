@@ -19,3 +19,17 @@
 - Se creo y ejecuto `notebooks/01_limpieza_union.ipynb`.
 - Se exporto `data/processed/catalogo_streamview.csv`.
 - Se validaron 32.000 filas, presencia de Movie y TV Show, ausencia de filas completamente duplicadas y recarga correcta del CSV exportado.
+
+## Analisis exploratorio basico
+
+- Se creo `notebooks/02_EDA_Catalogo_StreamView.ipynb` como notebook independiente de la limpieza.
+- El EDA utiliza `data/processed/catalogo_streamview.csv` como fuente de analisis.
+- Se calcularon KPIs de catalogo: contenidos, peliculas, series, paises, idiomas, generos, popularidad y calificacion.
+- Se analizaron generos, paises e idiomas mediante tablas derivadas, conservando una fila por contenido en el catalogo maestro.
+- Se separaron los rankings de popularidad, generos y paises entre Movies y TV Shows.
+- Se calcularon presupuesto promedio, ingresos totales, ROI aproximado y correlacion entre presupuesto e ingresos para peliculas con datos financieros validos.
+- Se incorporaron controles de calidad post-limpieza: nulos, duplicados, rangos validos y cobertura financiera.
+- Se generaron prototipos interactivos con Plotly para popularidad, generos, paises, evolucion temporal y finanzas.
+- Se exportaron las visualizaciones interactivas como archivos HTML en `images/`.
+- Se creo `data/processed/dashboard_plan_streamview.csv` para orientar los futuros dashboards en Looker Studio.
+- El EDA mantiene las limitaciones documentadas: `popularity` es un indice relativo, los campos multivalor representan asociaciones y los datos financieros tienen cobertura parcial.
