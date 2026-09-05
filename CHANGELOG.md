@@ -27,9 +27,11 @@
 - Se calcularon KPIs de catalogo: contenidos, peliculas, series, paises, idiomas, generos, popularidad y calificacion.
 - Se analizaron generos, paises e idiomas mediante tablas derivadas, conservando una fila por contenido en el catalogo maestro.
 - Se separaron los rankings de popularidad, generos y paises entre Movies y TV Shows.
+- Se incorporo una visualizacion Plotly de popularidad frente a valoracion, usando `vote_count` como contexto del respaldo de las evaluaciones.
 - Se calcularon presupuesto promedio, ingresos totales, ROI aproximado y correlacion entre presupuesto e ingresos para peliculas con datos financieros validos.
 - Se incorporaron controles de calidad post-limpieza: nulos, duplicados, rangos validos y cobertura financiera.
+- Se documentaron los 406 `show_id` repetidos y la cobertura financiera completa de 3.540 peliculas, equivalente a aproximadamente 22,1 % de las peliculas.
 - Se generaron prototipos interactivos con Plotly para popularidad, generos, paises, evolucion temporal y finanzas.
 - Se exportaron las visualizaciones interactivas como archivos HTML en `images/`.
-- Se creo `data/processed/dashboard_plan_streamview.csv` para orientar los futuros dashboards en Looker Studio.
+- Se definio el plan del dashboard en memoria dentro del EDA, sin exportar un CSV auxiliar.
 - El EDA mantiene las limitaciones documentadas: `popularity` es un indice relativo, los campos multivalor representan asociaciones y los datos financieros tienen cobertura parcial.
