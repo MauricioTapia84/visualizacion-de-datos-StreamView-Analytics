@@ -15,6 +15,8 @@
 - Se homologaron las estructuras de ambas fuentes.
 - Se incorporaron `budget` y `revenue` al esquema de TV Shows como valores nulos, sin reemplazarlos por cero.
 - Se alinearon tipos de datos para identificador, fechas y variables numericas compatibles.
+- Se validó que `show_id` no aporta valor analítico y que `duration` presenta alta falta de cobertura y baja variabilidad útil.
+- Se eliminaron del dataset analítico final las columnas `show_id` y `duration` para reducir ruido y evitar identificadores repetidos que no pueden consolidarse sin criterio.
 - Se concatenaron Movies y TV Shows verticalmente, sin JOIN ni MERGE.
 - Se creo y ejecuto `notebooks/01_limpieza_union.ipynb`.
 - Se exporto `data/processed/catalogo_streamview.csv`.

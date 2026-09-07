@@ -68,7 +68,35 @@ Nunca reemplazarlas por 0.
 
 ---
 
-## 6. Popularity
+## 6. Variables excluidas del dataset analítico
+
+Se eliminan del dataset maestro las columnas `show_id` y `duration`.
+
+### 6.1 `show_id`
+
+`show_id` se elimina porque no aporta valor analítico ni interpretativo al dashboard.
+Es un identificador de origen, no una dimensión de negocio ni una variable
+relevante para KPI, filtros o comparaciones. Además, la validación del dataset
+revela que este identificador presenta valores repetidos sin una regla
+justificada para consolidarlos automáticamente, por lo que su uso como campo
+analítico puede inducir a conclusiones erróneas sobre unicidad o duplicidad.
+
+### 6.2 `duration`
+
+`duration` se elimina porque es una variable casi no informativa para la
+analítica final del proyecto. Tiene una alta proporción de nulos y, además,
+presenta muy poca variabilidad útil para segmentar contenidos o comparar
+bajo KPI de negocio. En la práctica, la duración no se comporta como una
+variable discriminante para la narrativa del dashboard y su inclusión agrega
+ruido más que valor analítico.
+
+La decisión de excluirlas responde a dos criterios: (1) no aportar valor
+significativo para filtros, métricas o comparaciones; y (2) evitar variables
+con baja calidad, alta falta de cobertura o baja capacidad explicativa.
+
+---
+
+## 7. Popularity
 
 `popularity` representa un índice relativo de popularidad.
 
