@@ -121,6 +121,10 @@ Los valores faltantes deben conservarse cuando:
 
 Los textos vacíos pueden normalizarse a valores nulos cuando corresponda.
 
+En el dataset procesado, los valores faltantes se representan como `numpy.nan`.
+Al exportar el CSV se escribe el token `NaN`, que debe recargarse como un
+faltante numérico y no como texto ni como cero.
+
 ---
 
 ## 8. Duplicados
