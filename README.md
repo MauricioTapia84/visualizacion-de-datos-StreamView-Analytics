@@ -18,8 +18,8 @@ Los principales hallazgos son una cobertura temática de 28 géneros, 147 paíse
 | Dataset analítico | `data/processed/catalogo_streamview.csv` |
 | Unidad de análisis | Una fila por contenido audiovisual |
 | Integración | Homologación de columnas y concatenación vertical con `pd.concat(..., ignore_index=True)` |
-| Preparación | [notebooks/01_limpieza_union.ipynb](notebooks/01_limpieza_union.ipynb) |
-| Análisis exploratorio | [notebooks/02_EDA_Catalogo_StreamView.ipynb](notebooks/02_EDA_Catalogo_StreamView.ipynb) |
+| Preparación | [notebooks/01_eda_y_limpieza.ipynb](notebooks/01_eda_y_limpieza.ipynb) |
+| Modelado predictivo | [notebooks/02_modelado_predictivo.ipynb](notebooks/02_modelado_predictivo.ipynb) |
 
 El campo `type` distingue `Movie` de `TV Show`. Antes de concatenar, se alinean los esquemas y se añaden `budget` y `revenue` a las series como valores no aplicables. Las filas completamente duplicadas se detectan y eliminan durante la limpieza de cada fuente. Después de integrar, se excluyen `show_id`, `duration` y `description` del catálogo analítico.
 
@@ -65,42 +65,60 @@ El indicador exploratorio de oportunidad destaca series asociadas con **Portugal
 
 ## Dashboard y estado
 
-El EDA reúne las seis visualizaciones interactivas en una sola página:
+El proyecto mantiene dos capas complementarias:
 
-- [Dashboard interactivo de StreamView](images/dashboard_streamview.html)
+- capa descriptiva del catálogo y comportamiento del contenido,
+- capa predictiva para priorización de adquisiciones y renovación con `indice_exito` y categorías `Bajo/Medio/Alto Éxito`.
 
-Las barras de géneros y países muestran la cantidad de contenidos y el porcentaje sobre el total del tipo correspondiente. Como un contenido puede tener varias asociaciones, esos porcentajes se superponen y no suman 100 %. El ranking de popularidad muestra el índice y los votos, no un porcentaje artificial del índice.
+El dashboard HTML base disponible en la carpeta `images/` sirve como referencia visual y validación del flujo, mientras que la capa final BI queda preparada para exportar CSVs optimizados desde el pipeline.
 
-El dashboard HTML integra popularidad, géneros, países, incorporaciones, finanzas y valoración. El dashboard de Looker Studio no está implementado dentro de este repositorio. La siguiente etapa requiere datos propios de reproducciones, usuarios, costos y derechos para validar las hipótesis del EDA.
+### Estado real del proyecto
 
-### CSV único para Looker Studio
+El repositorio ya dispone de:
 
-Al ejecutar el EDA, `data/processed/catalogo_streamview.csv` se amplía para servir como fuente única de los dashboards: conserva las columnas originales e incorpora nombres legibles en español y 175 indicadores binarios (`genero__...` y `pais__...`), para un total de 207 columnas. Cada fila sigue siendo un contenido. Los campos descriptivos originales `genres` y `country` se conservan y los valores faltantes del archivo final quedan como celdas vacías para facilitar su lectura en herramientas BI.
+- base analítica limpia y unificada en `data/processed/catalogo_streamview.csv`,
+- split train/test exportado en `data/processed/train_procesado.csv` y `data/processed/test_procesado.csv`,
+- modelos entrenados en `models/`,
+- script reproducible en `src/pipeline/fase_4_dashboard.py`,
+- guía documental para el dashboard y la arquitectura del proyecto en `docs/`.
 
-Los indicadores valen `1` cuando el contenido tiene una asociación y `0` cuando no la tiene. **No se deben sumar entre sí para obtener el total del catálogo**: un contenido puede activar varios géneros y países. Para contar contenidos use `COUNT_DISTINCT(id_contenido)`; `tiene_genero_informado` y `tiene_pais_informado` distinguen la falta de información de una ausencia de asociación. Dirección y reparto se conservan como texto por su alta cardinalidad. Ya no se generan el CSV One-Hot auxiliar ni el diccionario separado.
+La entrega BI final requiere cerrar la exportación definitiva de los CSVs de dashboard en `data/dashboard/` y ajustar la guía de implementación de Data Studio a la estructura final del proyecto.
 
-### Selector de países One-Hot en Looker Studio
+### Estructura final esperada del entregable
 
-El campo original `country` puede contener varios países en una misma celda, por lo que un control desplegable basado directamente en ese campo muestra combinaciones. Para seleccionar un país individual mediante sus indicadores One-Hot:
+```text
+data/
+  processed/
+    catalogo_streamview.csv
+    train_procesado.csv
+    test_procesado.csv
+  dashboard/
+    dashboard_ejecutivo.csv
+    dashboard_contenidos.csv
+    dashboard_predicciones.csv
+    README.md
+models/
+  best_regression_model.pkl
+  best_classifier_model.pkl
+images/
+  dashboard_streamview.html
+  mockup_dashboard_baja_fidelidad.html
+```
 
-1. En la fuente de datos de Looker Studio, crea el parámetro `pais_selector` de tipo **Texto**, con valores permitidos de tipo **Lista de valores**.
-2. Añade al parámetro los nombres de país como valores permitidos. Deben coincidir exactamente con los nombres de país usados en el campo `CASE` (los nombres de origen están en inglés). Puedes asignar etiquetas en español para mostrar nombres traducidos en el control; el valor interno debe seguir coincidiendo con el `CASE`. Los 147 valores no se generan automáticamente desde el CSV.
-3. Añade al informe un control de lista desplegable y establece `pais_selector` como su campo de control.
-4. Crea un campo calculado numérico, por ejemplo `pais_seleccionado`, con una condición `WHEN` por país que devuelva su indicador correspondiente (`pais__...`). Usa `ELSE 0` y termina la expresión con `END`. Por ejemplo:
+### Reglas clave de negocio para el dashboard
 
-   ```text
-   CASE
-     WHEN pais_selector = "Canada" THEN pais__canada
-     WHEN pais_selector = "Portugal" THEN pais__portugal
-     WHEN pais_selector = "United States Of America"
-       THEN pais__united_states_of_america
-     ELSE 0
-   END
-   ```
+- `vote_average` debe interpretarse con filtro mínimo de votos.
+- `popularity` es un índice relativo de la fuente, no un indicador de reproducciones reales.
+- `budget` y `revenue` solo aplican a películas y no representan rentabilidad real de StreamView.
+- El modelo sirve para apoyar decisiones, no para reemplazar la capacidad de análisis humano.
 
-5. Para mostrar el total del país seleccionado, usa la métrica `SUM(pais_seleccionado)`. Para filtrar gráficos o tablas, filtra ese campo por el valor `1`. También se puede contar `id_contenido` con recuento distinto.
+## Documentación de mejoras y entregables
 
-Los nombres de las columnas de indicadores están normalizados en minúsculas y guiones bajos; consulta el encabezado del CSV para el nombre exacto de cada campo. Si el parámetro permite cualquier valor en vez de una lista, la persona debe escribir exactamente un valor reconocido por el `CASE`; los valores no contemplados devuelven `0`.
+El proyecto ya incorpora la línea de trabajo de mejora de la Etapa 3 y el apoyo para la defensa del proyecto:
+
+- [docs/documento_maestro_mejoras_streamview.md](docs/documento_maestro_mejoras_streamview.md): consolidación de correcciones, reglas de negocio y mejora del dashboard.
+- [docs/guia_dashboard_datastudio.md](docs/guia_dashboard_datastudio.md): guía de diseño, estructura y navegación del dashboard final.
+- [docs/instrucciones_actualizacion_dashboard_informe_ppt_fase3.md](docs/instrucciones_actualizacion_dashboard_informe_ppt_fase3.md): instrucciones concretas para actualizar el mockup, redactar el informe de fase 3 y preparar la presentación PPT 3.
 
 ## Herramientas
 

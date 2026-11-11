@@ -1,0 +1,55 @@
+{
+  "final_validation": {
+    "train_rows": 25600,
+    "test_rows": 6400,
+    "train_share": 0.8,
+    "test_share": 0.2,
+    "target_min": 0.0,
+    "target_max": 0.8468,
+    "test_target_min": 0.0,
+    "test_target_max": 0.7564,
+    "category_distribution_train": {
+      "Alto Éxito": 8704,
+      "Medio Éxito": 8448,
+      "Bajo Éxito": 8448
+    },
+    "category_distribution_test": {
+      "Alto Éxito": 2176,
+      "Bajo Éxito": 2112,
+      "Medio Éxito": 2112
+    },
+    "leakage_check": "OK"
+  },
+  "business_metrics": {
+    "top_k_rows": 640,
+    "precision_at_10pct": 0.9094,
+    "baseline_positive_rate": 0.34,
+    "lift_at_10pct": 2.6746,
+    "gain_at_10pct": 0.2675,
+    "positive_total": 2176
+  },
+  "budget_revenue_analysis": {
+    "movies_with_finance": 3200,
+    "budget_mean": 8597048.9,
+    "revenue_mean": 25659960.29,
+    "roi_mean": 2546.6864,
+    "roi_median": -0.2226,
+    "correlation_budget_revenue": 0.7756
+  },
+  "explainability": {
+    "method": "SHAP",
+    "top_features": {
+      "num__popularity": 0.10610832699445401,
+      "num__vote_count_log": 0.07191315315840505,
+      "num__vote_count": 0.054722403307834976,
+      "num__vote_average": 0.05282717880136821,
+      "num__rating": 0.05186680175063151,
+      "num__score_index": 0.045105393794172624,
+      "cat__type_Movie": 0.011112123384563086,
+      "cat__type_TV Show": 0.00962562435437183,
+      "num__release_year": 0.0042597741845219,
+      "num__revenue_log": 0.002498697336462439
+    }
+  },
+  "status": "Proyecto listo para entrega final con validación en test, métricas de negocio y explicabilidad"
+}

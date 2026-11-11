@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StreamView Analytics - Mockup Dashboard</title>
+  <style>
+    :root {
+      --navy: #14233d;
+      --navy-soft: #213a5a;
+      --blue: #4b6fa8;
+      --blue-soft: #dfeaf7;
+      --green: #2e8b57;
+      --yellow: #f4b740;
+      --red: #d75959;
+      --gray-100: #f6f8fb;
+      --gray-200: #edf2f8;
+      --gray-300: #dde5ee;
+      --gray-500: #6c7d93;
+      --dark: #1b2433;
+      --shadow: 0 8px 16px rgba(17, 28, 44, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #f4f7fb 0%, #edf3fb 100%);
+      color: var(--dark);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .topbar {
+      background: var(--navy);
+      color: white;
+      padding: 18px 28px;
+      border-bottom: 4px solid var(--blue);
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 1.15rem;
+    }
+
+    .wrapper {
+      padding: 24px;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-200);
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .filter-bar {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(140px, 1fr));
+      gap: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .filter-block { display: flex; flex-direction: column; gap: 6px; }
+    .filter-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gray-500);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .filter-select {
+      border-radius: 8px;
+      border: 1px solid var(--gray-300);
+      padding: 8px 10px;
+      background: white;
+      font-size: 0.9rem;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .kpi-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: 0 4px 10px rgba(20, 35, 61, 0.04);
+      min-height: 118px;
+    }
+
+    .kpi-label {
+      color: var(--gray-500);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+    }
+
+    .kpi-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+
+    .kpi-note {
+      font-size: 0.75rem;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .warning {
+      background: #eef6ff;
+      border: 1px solid #d4e6ff;
+      color: var(--navy-soft);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin: 12px 0 18px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .chart-box {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .chart-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .bar-demo {
+      height: 220px;
+      display: flex;
+      align-items: end;
+      gap: 12px;
+      padding-top: 16px;
+      border-bottom: 1px solid var(--gray-300);
+    }
+
+    .bar {
+      flex: 1;
+      border-radius: 10px 10px 0 0;
+      position: relative;
+      min-height: 40px;
+      background: linear-gradient(180deg, #7aa6db 0%, #4b6fa8 100%);
+    }
+
+    .bar.secondary { background: linear-gradient(180deg, #d9b36f 0%, #f4b740 100%); }
+    .bar[data-label]::after {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -22px;
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--gray-500);
+    }
+
+    .scatter-area {
+      height: 220px;
+      border: 1px dashed #bfd3ee;
+      border-radius: 12px;
+      background: linear-gradient(180deg,#edf5ff 0%, #ffffff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scatter-area::before {
+      content: "";
+      position: absolute;
+      inset: 18px 20px 20px 22px;
+      background: radial-gradient(circle at 20% 30%, rgba(75,111,168,0.22) 0, rgba(75,111,168,0.22) 9%, transparent 10%),
+                  radial-gradient(circle at 48% 53%, rgba(46,139,87,0.18) 0, rgba(46,139,87,0.18) 9%, transparent 10%),
+                  radial-gradient(circle at 70% 26%, rgba(244,183,64,0.18) 0, rgba(244,183,64,0.18) 9%, transparent 10%),
+                  linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+                  linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+      background-size: auto, auto, auto, 36px 36px, 36px 36px;
+      border-radius: 8px;
+    }
+
+    .legend { display: flex; gap: 18px; margin-top: 10px; font-size: 0.85rem; color: var(--gray-500); }
+    .dot {
+      width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 7px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    th {
+      background: #eef4ff;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .pill.green { background: rgba(46, 139, 87, 0.12); color: var(--green); }
+    .pill.yellow { background: rgba(244, 183, 64, 0.14); color: #9b6b00; }
+    .pill.red { background: rgba(215, 89, 89, 0.12); color: var(--red); }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">STREAMVIEW ANALYTICS</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="panel">
+      <div class="filter-bar">
+        <div class="filter-block">
+          <label class="filter-label">Tipo</label>
+          <select class="filter-select"><option>Todos</option><option>Películas</option><option>Series</option></select>
+        </div>
+        <div class="filter-block">
+          <label class="filter-label">Género</label>
+          <select class="filter-select"><option>Todos</option><option>Drama</option><option>Reality</option></select>
+        </div>
+        <div class="filter-block">
+          <label class="filter-label">País</label>
+          <select class="filter-select"><option>Todos</option><option>United States</option><option>Portugal</option></select>
+        </div>
+        <div class="filter-block">
+          <label class="filter-label">Idioma</label>
+          <select class="filter-select"><option>Todos</option><option>English</option><option>Spanish</option></select>
+        </div>
+        <div class="filter-block">
+          <label class="filter-label">Año</label>
+          <select class="filter-select"><option>Todos</option><option>2010-2019</option><option>2020-2025</option></select>
+        </div>
+        <div class="filter-block">
+          <label class="filter-label">Éxito</label>
+          <select class="filter-select"><option>Todos</option><option>Alto</option><option>Medio</option><option>Bajo</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <strong>Reglas de negocio visibles:</strong> popularity se presenta como índice relativo y no como reproducción real; vote_average solo se interpreta con filtro mínimo de votos (vote_count &gt;= 100); budget y revenue solo aplican a películas con cobertura parcial y no representan rentabilidad real de StreamView.
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total títulos</div>
+        <div class="kpi-value">32.000</div>
+        <div class="kpi-note">Catálogo total</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Películas</div>
+        <div class="kpi-value">16.000</div>
+        <div class="kpi-note">50.0% del catálogo</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Series</div>
+        <div class="kpi-value">16.000</div>
+        <div class="kpi-note">50.0% del catálogo</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Popularidad media</div>
+        <div class="kpi-value">42.6</div>
+        <div class="kpi-note">Índice relativo de la fuente</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Valoración media</div>
+        <div class="kpi-value">5.69</div>
+        <div class="kpi-note">Con votos mínimos</div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="chart-box">
+        <div class="chart-title">Géneros con mayor presencia y popularidad relativa</div>
+        <div class="bar-demo">
+          <div class="bar" style="height: 86%" data-label="Drama"></div>
+          <div class="bar secondary" style="height: 60%" data-label="Reality"></div>
+          <div class="bar" style="height: 52%" data-label="Comedy"></div>
+          <div class="bar secondary" style="height: 48%" data-label="Thriller"></div>
+          <div class="bar" style="height: 44%" data-label="Docs"></div>
+        </div>
+        <div class="legend">
+          <span><span class="dot" style="background:#7aa6db"></span>Presencia</span>
+          <span><span class="dot" style="background:#f4b740"></span>Popularidad</span>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <div class="chart-title">Popularidad vs valoración</div>
+        <div class="scatter-area"></div>
+        <div class="legend">
+          <span><span class="dot" style="background:#4b6fa8"></span>Películas</span>
+          <span><span class="dot" style="background:#2e8b57"></span>Series</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top: 20px;">
+      <div class="chart-title">Ranking de títulos candidatos para adquisición / renovación</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Tipo</th>
+            <th>Género</th>
+            <th>Popularidad</th>
+            <th>Valoración</th>
+            <th>Votos</th>
+            <th>Éxito</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>The Late Show with Stephen Colbert</td>
+            <td>Series</td>
+            <td>Talk Show</td>
+            <td>6421.9</td>
+            <td>8.6</td>
+            <td>288</td>
+            <td><span class="pill green">Alto</span></td>
+          </tr>
+          <tr>
+            <td>The Gorge</td>
+            <td>Movie</td>
+            <td>Drama</td>
+            <td>3876.0</td>
+            <td>8.7</td>
+            <td>1572</td>
+            <td><span class="pill green">Alto</span></td>
+          </tr>
+          <tr>
+            <td>Reality shows / high engagement formats</td>
+            <td>Series</td>
+            <td>Reality</td>
+            <td>76.8</td>
+            <td>7.3</td>
+            <td>1028</td>
+            <td><span class="pill yellow">Medio</span></td>
+          </tr>
+          <tr>
+            <td>Drama portfolio</td>
+            <td>Movie + Series</td>
+            <td>Drama</td>
+            <td>40.9</td>
+            <td>7.8</td>
+            <td>14.769</td>
+            <td><span class="pill yellow">Medio</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel" style="margin-top: 20px;">
+      <div class="chart-title">Módulo financiero y de priorización</div>
+      <div class="content-grid">
+        <div>
+          <div class="warning">Se muestra el ROI solo para películas con presupuesto e ingresos válidos. Cobertura financiera disponible en 3.540 películas (22,1%).</div>
+          <div class="chart-box" style="padding: 12px;">
+            <div class="chart-title">ROI aproximado por segmento</div>
+            <div class="bar-demo" style="height: 150px;">
+              <div class="bar" style="height: 72%" data-label="High"></div>
+              <div class="bar secondary" style="height: 58%" data-label="Medio"></div>
+              <div class="bar" style="height: 38%" data-label="Low"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="chart-box" style="padding: 12px;">
+            <div class="chart-title">Resumen ejecutivo</div>
+            <p style="margin: 8px 0; color: var(--navy-soft);"><strong>Hallazgo principal:</strong> el catálogo está equilibrado, pero los géneros con mayor presencia no siempre son los mejores en popularidad y valoración.</p>
+            <p style="margin: 8px 0; color: var(--navy-soft);"><strong>Recomendación:</strong> priorizar revisión por género y país, con análisis de valor de contenido antes de comprar o renovar títulos.</p>
+            <p style="margin: 8px 0; color: var(--navy-soft);"><strong>Lección clave:</strong> la decisión de negocio debe basarse en éxito relativo y respaldo de votos, no solo en volumen o presencia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
