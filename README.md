@@ -18,8 +18,8 @@ Los principales hallazgos son una cobertura temática de 28 géneros, 147 paíse
 | Dataset analítico | `data/processed/catalogo_streamview.csv` |
 | Unidad de análisis | Una fila por contenido audiovisual |
 | Integración | Homologación de columnas y concatenación vertical con `pd.concat(..., ignore_index=True)` |
-| Preparación | [notebooks/01_limpieza_union.ipynb](notebooks/01_limpieza_union.ipynb) |
-| Análisis exploratorio | [notebooks/02_EDA_Catalogo_StreamView.ipynb](notebooks/02_EDA_Catalogo_StreamView.ipynb) |
+| Preparación | [notebooks/01_eda_y_limpieza.ipynb](notebooks/01_eda_y_limpieza.ipynb) |
+| Modelado predictivo | [notebooks/02_modelado_predictivo.ipynb](notebooks/02_modelado_predictivo.ipynb) |
 
 El campo `type` distingue `Movie` de `TV Show`. Antes de concatenar, se alinean los esquemas y se añaden `budget` y `revenue` a las series como valores no aplicables. Las filas completamente duplicadas se detectan y eliminan durante la limpieza de cada fuente. Después de integrar, se excluyen `show_id`, `duration` y `description` del catálogo analítico.
 
@@ -79,7 +79,7 @@ El repositorio ya dispone de:
 - base analítica limpia y unificada en `data/processed/catalogo_streamview.csv`,
 - split train/test exportado en `data/processed/train_procesado.csv` y `data/processed/test_procesado.csv`,
 - modelos entrenados en `models/`,
-- script reproducible en `src/pipeline/streamview_phase4.py`,
+- script reproducible en `src/pipeline/fase_4_dashboard.py`,
 - guía documental para el dashboard y la arquitectura del proyecto en `docs/`.
 
 La entrega BI final requiere cerrar la exportación definitiva de los CSVs de dashboard en `data/dashboard/` y ajustar la guía de implementación de Data Studio a la estructura final del proyecto.
@@ -111,6 +111,14 @@ images/
 - `popularity` es un índice relativo de la fuente, no un indicador de reproducciones reales.
 - `budget` y `revenue` solo aplican a películas y no representan rentabilidad real de StreamView.
 - El modelo sirve para apoyar decisiones, no para reemplazar la capacidad de análisis humano.
+
+## Documentación de mejoras y entregables
+
+El proyecto ya incorpora la línea de trabajo de mejora de la Etapa 3 y el apoyo para la defensa del proyecto:
+
+- [docs/documento_maestro_mejoras_streamview.md](docs/documento_maestro_mejoras_streamview.md): consolidación de correcciones, reglas de negocio y mejora del dashboard.
+- [docs/guia_dashboard_datastudio.md](docs/guia_dashboard_datastudio.md): guía de diseño, estructura y navegación del dashboard final.
+- [docs/instrucciones_actualizacion_dashboard_informe_ppt_fase3.md](docs/instrucciones_actualizacion_dashboard_informe_ppt_fase3.md): instrucciones concretas para actualizar el mockup, redactar el informe de fase 3 y preparar la presentación PPT 3.
 
 ## Herramientas
 

@@ -8,7 +8,7 @@
 
 ## Preparacion de datos
 
-- Se leyeron `docs/project_brief.md` y `docs/data_rules.md` antes de realizar transformaciones.
+- Se leyeron `docs/resumen_ejecutivo_y_alcance.md` y `docs/reglas_datos_y_calidad.md` antes de realizar transformaciones.
 - Se cargaron las fuentes oficiales de Movies y TV Shows desde `data/raw/`, sin modificar los archivos originales.
 - Se revisaron estructura, valores faltantes, columnas exclusivas y duplicados.
 - Se normalizaron espacios iniciales y finales, y los textos vacios se convirtieron en valores nulos.

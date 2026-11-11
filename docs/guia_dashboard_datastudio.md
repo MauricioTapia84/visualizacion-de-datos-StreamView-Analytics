@@ -159,6 +159,15 @@ El dashboard se considerará listo cuando:
 - deje visible la advertencia sobre la calidad de los datos y la naturaleza relativa de `popularity`,
 - sirva como apoyo a decisiones de adquisición y renovación, no solo como vista descriptiva.
 
+### Reglas de mejora añadidas para la Etapa 3
+
+- Priorizar un dashboard orientado a la decisión de adquisición y renovación, no a la mera descripción del catálogo.
+- Usar `vote_average` y `vote_count` como contexto conjunto para cualquier análisis de valoración.
+- Aplicar un filtro mínimo de `vote_count >= 100` para evitar comparaciones engañosas.
+- Diferenciar claramente entre tendencias de catálogo y métricas de calidad de contenido.
+- Mostrar el panel de éxito con una vista ejecutiva y otra analítica.
+- Incluir advertencias visibles sobre popularidad relativa y cobertura parcial de `budget` / `revenue`.
+
 ---
 
 ## 10. Conclusión
