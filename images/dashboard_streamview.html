@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>StreamView Analytics - Dashboard predictivo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; background: #f6f8fb; color: #1f2937; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { margin-bottom: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; margin-bottom: 24px; }
+    .card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .label { color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .value { font-size: 28px; font-weight: bold; margin-top: 6px; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid #e5e7eb; text-align: left; }
+    th { background: #eff6ff; }
+    h2 { margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>StreamView Analytics</h1>
+      <p>Dashboard predictivo final con priorización de contenidos por potencial de éxito futuro.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card"><div class="label">Catálogo total</div><div class="value">32,000</div></div>
+      <div class="card"><div class="label">Tipos</div><div class="value">Movie, TV Show</div></div>
+      <div class="card"><div class="label">Score promedio</div><div class="value">0.274</div></div>
+      <div class="card"><div class="label">Máximo potencial</div><div class="value">The Late Show with Stephen Colbert</div></div>
+    </div>
+
+    <h2>Top títulos por score previsto</h2>
+    <table>
+      <thead>
+        <tr><th>Título</th><th>Tipo</th><th>Score</th><th>Categoria</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>The Late Show with Stephen Colbert</td><td>TV Show</td><td>0.756</td><td>Alto Exito</td></tr>
+<tr><td>The Gorge</td><td>Movie</td><td>0.685</td><td>Alto Exito</td></tr>
+<tr><td>The Tonight Show Starring Jimmy Fallon</td><td>TV Show</td><td>0.645</td><td>Alto Exito</td></tr>
+<tr><td>Sonic the Hedgehog 3</td><td>Movie</td><td>0.599</td><td>Alto Exito</td></tr>
+<tr><td>Mufasa: The Lion King</td><td>Movie</td><td>0.597</td><td>Alto Exito</td></tr>
+<tr><td>Game of Thrones</td><td>TV Show</td><td>0.594</td><td>Alto Exito</td></tr>
+<tr><td>Rick and Morty</td><td>TV Show</td><td>0.585</td><td>Alto Exito</td></tr>
+<tr><td>Interstellar</td><td>Movie</td><td>0.572</td><td>Alto Exito</td></tr>
+<tr><td>Moana 2</td><td>Movie</td><td>0.572</td><td>Alto Exito</td></tr>
+<tr><td>The Good Doctor</td><td>TV Show</td><td>0.564</td><td>Alto Exito</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Resumen del modelo</h2>
+    <div class="card">
+      <p>Regresión: MAE 0.000000 | RMSE 0.000000 | R² 1.000000</p>
+      <p>Clasificación: Accuracy 0.980156 | F1 weighted 0.980194</p>
+    </div>
+  </div>
+</body>
+</html>

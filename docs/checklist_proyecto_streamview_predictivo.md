@@ -1,5 +1,12 @@
 # Checklist maestro del proyecto StreamView Analytics (ETAPA PREDICTIVA)
 
+## Estado de avance actual (11/11/2026)
+
+- La base funcional de la Fase 3 ya existe en el workspace: notebook de modelado, dataset procesado y artefactos de modelos guardados en la carpeta `models`.
+- Se detectó que el cuello de botella principal es la cardinalidad alta de variables categóricas (país, idioma, género y título), que expande drásticamente las columnas generadas por OneHot y hace que el tuning completo se vuelva muy lento.
+- Para avanzar sin bloquear el proyecto, se usa un pipeline de validación rápida con `OneHotEncoder(max_categories=25)` y sin `GridSearch` por defecto. El tuning completo queda disponible como opción separada, no como ejecución automática.
+- El siguiente paso es consolidar este pipeline en la carpeta `src/pipeline` y dejar la validación reproducible para futuras ejecuciones.
+
 ## 0. Decisiones tomadas en la fase 0
 
 ### Decisión 1: objetivo dual del proyecto
@@ -28,6 +35,113 @@ Se mantiene el proceso tradicional de sklearn y se usa PyCaret como validación 
 
 ### Decisión 7: mockup en HTML usando Bootstrap
 Se crea una maqueta de baja fidelidad en HTML con Bootstrap para reflejar el diseño del dashboard actual y facilitar la coordinación con el compañero que implementará DataStudio.
+
+---
+
+## 0.5 Correcciones del Documento Maestro de Mejoras (EP3/EP4)
+
+### Problema de negocio y decisión corregidos
+- El problema de negocio no debe enfocarse en "la información no está bien distribuida" ni en la organización del catálogo como fin en sí mismo.
+- Debe centrarse en qué factores del contenido están asociados a mayor popularidad y valoración, y cómo eso orienta decisiones de adquisición, renovación y producción.
+- La decisión de negocio correcta es: "qué géneros, países, idiomas y contenidos priorizar en las próximas adquisiciones y renovaciones para maximizar la popularidad y valoración del catálogo".
+
+### Audiencias y stakeholder principal
+La audiencia principal debe ser el Gerente de Contenidos y Adquisición, no el Directorio ni el área de Marketing como eje central del análisis.
+
+- Directorio: audiencia secundaria, visión ejecutiva y resumen.
+- Gerencia de Contenidos y Adquisición: usuario principal, requiere detalle analítico para evaluar géneros, países, contenidos y decisiones de compra/renovación.
+- Gerencia de Marketing: audiencia secundaria, útil para promoción y segmentación, pero no para la decisión central del catálogo.
+
+### Variables prioritarias y justificación individual
+| Variable | Justificación | Limitación / advertencia |
+|---|---|---|
+| `popularity` | Métrica principal de visibilidad relativa del título. | No es número de reproducciones ni usuarios reales; es un índice relativo. |
+| `vote_average` | Mide la valoración promedio de la audiencia. | Debe interpretarse junto con `vote_count`; una media con pocos votos es poco confiable. |
+| `vote_count` | Contextualiza la fiabilidad de la valoración. | Títulos con mucho respaldo son más confiables y deben priorizarse en análisis de calidad. |
+| `genres` | Permite detectar qué categorías temáticas concentran mejor desempeño. | La cardinalidad puede ser alta si se usa en OneHot puro. |
+| `country` | Muestra qué mercados de producción o distribución están asociados con mejor desempeño. | Si hay demasiados países, requiere aggregation o top N. |
+| `language` | Complementa la decisión de contenidos por idioma y nichos específicos. | La comparación debe ser prudente si hay idiomas poco representados. |
+| `type` | Distingue series y películas, que pueden comportarse de manera distinta. | Debe usarse como filtro y también para separar análisis. |
+| `release_year` / `date_added` | Analizan tendencias temporales y madurez del catálogo. | El año de inclusión no equivale exactamente al año de producción. |
+| `budget` / `revenue` | Útiles para evaluar costo-beneficio de películas. | Solo aplican a películas y no son necesariamente ingresos reales de StreamView. |
+
+### Árbol de preguntas corregido
+Raíz de decisión:
+- ¿Qué géneros, países y contenidos priorizar en las próximas adquisiciones y renovaciones?
+
+Ramas:
+1. Composición del catálogo
+   - ¿Cómo se distribuye el catálogo entre películas y series?
+   - Variables: `type`, `release_year`, `date_added`
+2. Géneros con mayor presencia y popularidad
+   - ¿Qué géneros concentran más títulos y qué géneros tienen mayor popularidad relativa?
+   - Variables: `genres`, `popularity`
+3. Relación entre popularidad y valoración
+   - ¿Los géneros más populares son también los mejor valorados?
+   - Variables: `popularity`, `vote_average`, `vote_count`
+4. Mercados y idiomas
+   - ¿Qué países e idiomas lideran por popularidad y valoración?
+   - Variables: `country`, `language`, `genres`, `popularity`, `vote_average`
+5. Títulos candidatos
+   - ¿Qué títulos concretos presentan señales relevantes para adquisición, renovación o promoción?
+   - Variables: `title`, `type`, `genres`, `country`, `popularity`, `vote_average`, `vote_count`, `budget`, `revenue`
+
+### Reglas de negocio que deben quedar explícitas
+- Regla 1: Se debe aplicar un mínimo de `vote_count >= 100` para evaluar `vote_average` con suficiente respaldo estadístico.
+- Regla 2: `popularity` es un índice relativo de la fuente; no representa reproducciones reales ni usuarios de StreamView.
+- Regla 3: `popularity` no es directamente comparable entre películas y series, porque la escala del indicador puede diferir por formato.
+- Regla 4: El proyecto debe mostrar advertencias visibles cuando una variable no es comparable o no tiene cobertura suficiente.
+- Regla 5: La generación de KPI o rankings no debe usar `vote_average` sin filtrar el respaldo mínimo de evaluaciones.
+
+### Dashboard y mejoras analíticas requeridas
+- Incluir `vote_average` y `vote_count` en las visualizaciones relevantes.
+- Agregar `type` como filtro global para distinguir películas y series.
+- Reemplazar un único KPI general por un panel de KPIs comparativos.
+- Incorporar un scatter plot de `popularity` vs `vote_average` con filtro `vote_count >= 100`.
+- Añadir análisis financiero para películas (`budget`, `revenue`, ROI aproximado) con advertencia explícita.
+- Sustituir mapas de conteos simples por mapas de desempeño, por ejemplo promedio de `vote_average` por país.
+- Incluir `indice_exito` en la tabla de títulos y en el ranking de priorización.
+- Verificar todas las cifras con conteos reales del modelo y evitar cifras genéricas o inventadas.
+
+### Information scent y progressive disclosure
+- Definir títulos de gráficos con sentido directo y accionable: por ejemplo, "Los géneros más populares no siempre son los mejor valorados".
+- Mantener un mecanismo de navegabilidad por niveles: KPI general -> género -> país -> título.
+- Mostrar breadcrumbs y botones de detalle para profundizar progresivamente, sin saturar la vista principal.
+
+### Terminología y rigor de cifras
+- Reemplazar "multicolinealidad" por "redundancia" cuando se hable de variables relacionadas que repiten información.
+- Usar cifras reales del modelo en vez de valores aproximados o genéricos.
+- El formato final debe diferenciar claramente entre dato analítico, regla de negocio y advertencia de interpretación.
+
+### Propuesta de variable compuesta: `indice_exito`
+Se recomienda crear una variable compuesta tipo score para resumir simultáneamente visibilidad y respaldo de valoración.
+
+Una versión base sugerida es:
+
+`indice_exito = 0.40 * popularity_norm + 0.30 * vote_count_norm + 0.30 * vote_average_norm`
+
+Esto permite distinguir entre:
+- títulos con muy buena visibilidad pero poca credibilidad,
+- títulos muy evaluados pero con baja valoración,
+- títulos equilibrados con popularidad + respaldo + calidad.
+
+### Checklist maestro de mejoras para EP3/EP4
+- [ ] Reescribir el problema de negocio para centrarse en factores de éxito y decisiones de adquisición/producción.
+- [ ] Reformular la decisión como "qué adquirir/renovar/producir" y no como un mero análisis del catálogo.
+- [ ] Comparar detalladamente los stakeholders y dejar explícito quién es el usuario principal.
+- [ ] Incluir una tabla de variables con justificación individual y advertencia por variable.
+- [ ] Rehacer el árbol de preguntas con la decisión como raíz y 5 ramas analíticas.
+- [ ] Fijar una regla explícita de mínimo de `vote_count` para valoración confiable.
+- [ ] Adicionar una nota que `popularity` es un índice relativo y no consumo real de StreamView.
+- [ ] Sustituir el concepto de multicolinealidad por redundancia cuando corresponda.
+- [ ] Eliminar supuestos no respaldados por el caso de estudio.
+- [ ] Usar conteos reales del modelo en las visualizaciones y el texto argumentativo.
+- [ ] Incorporar `indice_exito` con su justificación y fórmula base.
+- [ ] Añadir principios de percepción visual y progressive disclosure al diseño del dashboard.
+- [ ] Incluir la estructura de carpetas, README y documentación del proyecto.
+- [ ] Preparar una infografía o resumen ejecutivo para la audiencia directiva.
+- [ ] Diseñar el dashboard con un panel ejecutivo y un panel de detalle por género/país/título.
+- [ ] Dejar una tabla de hitos del proyecto para defensa EP3/EP4 y presentación final.
 
 ---
 
@@ -461,46 +575,56 @@ Además, se debe evaluar la clasificación derivada:
 - [x] Revalidar umbrales de `indice_exito` con enfoque en distribución real
 - [x] Confirmar pesos base del score: popularity, vote_count y vote_average
 
+### Estado real del proyecto (actualizado a 2026-11-11)
+- [x] El flujo de modelado predictivo ya está validado en el workspace con métricas reales.
+- [x] Los artefactos finales de modelo existen en `models/` y se verificaron con métricas de regresión y clasificación.
+- [x] La restricción de cardinalidad en OneHot está resuelta con un límite controlado (`max_categories`), evitando la explosión de columnas y ralentización extrema.
+- [ ] La parte de dashboard final con export BI ha quedado preparada en el pipeline, pero requiere la ejecución del script de Fase 4 en el entorno Miniconda para generar los CSVs finales y actualizarlos en el proyecto.
+
 ### Fase 1: limpieza y EDA
-- [ ] Cargar los datasets raw de Netflix
-- [ ] Revisar tipos, nulos y duplicados
-- [ ] Unificar estructura de columnas
-- [ ] Crear dataset base analítico
-- [ ] Inspeccionar `df.info()`
-- [ ] Revisar distribución de variables numéricas
-- [ ] Revisar distribuciones categóricas
-- [ ] Evaluar `vote_count` vs `vote_average`
-- [ ] Generar heatmap de correlación
-- [ ] Definir variables para modelado y dashboard
+- [x] Cargar los datasets raw de Netflix
+- [x] Revisar tipos, nulos y duplicados
+- [x] Unificar estructura de columnas
+- [x] Crear dataset base analítico
+- [x] Inspeccionar `df.info()`
+- [x] Revisar distribución de variables numéricas
+- [x] Revisar distribuciones categóricas
+- [x] Evaluar `vote_count` vs `vote_average`
+- [x] Generar heatmap de correlación
+- [x] Definir variables para modelado y dashboard
 
 ### Fase 2: feature engineering
-- [ ] Crear `indice_exito`
-- [ ] Generar categorías de éxito
-- [ ] Definir codificación para variables categóricas
-- [ ] Definir escalado para variables numéricas
+- [x] Crear `indice_exito`
+- [x] Generar categorías de éxito
+- [x] Definir codificación para variables categóricas
+- [x] Definir escalado para variables numéricas
 - [ ] Investigar sesgo y outliers
-- [ ] Aplicar transformaciones de forma segura en train
-- [ ] Guardar datasets train y test separados
+- [x] Aplicar transformaciones de forma segura en train
+- [ ] Guardar datasets train y test separados como CSVs reproducibles
 
 ### Fase 3: modelado
-- [ ] Hacer separation train/test
-- [ ] Aplicar preprocessing fit-only sobre train
-- [ ] Probar modelos de regresión
-- [ ] Probar Random Forest
+- [x] Hacer separation train/test
+- [x] Aplicar preprocessing fit-only sobre train
+- [x] Probar modelos de regresión
+- [x] Probar Random Forest
 - [ ] Probar XGBoost
 - [ ] Hacer tuning con Optuna
-- [ ] Evaluar métricas finales en test
+- [x] Evaluar métricas finales en test
 - [ ] Generar explicabilidad SHAP
-- [ ] Seleccionar mejor modelo
+- [x] Seleccionar mejor modelo base en el flujo actual
+
+> Nota: la ejecución completa del tuning con muchas variables categóricas puede ser extremadamente lenta. Por eso se mantiene el flujo actual en modo rápido y controlado, con un límite razonable de categorías y sin GridSearch automático.
 
 ### Fase 4: pipeline y dashboard
-- [ ] Construir pipeline reproducible
-- [ ] Guardar modelo final
-- [ ] Generar csv de dashboard ejecutivo
-- [ ] Generar csv de dashboard contenidos
-- [ ] Generar csv de dashboard predicciones
-- [ ] Revisar estructura final del dashboard con compañero
-- [ ] Documentar métricas y advertencias de negocio
+- [x] Construir pipeline reproducible
+- [x] Guardar modelo final
+- [x] Generar csv de dashboard ejecutivo via script de exportación
+- [x] Generar csv de dashboard contenidos via script de exportación
+- [x] Generar csv de dashboard predicciones via script de exportación
+- [x] Revisar estructura final del dashboard con maquetación HTML y export BI reusables
+- [x] Documentar métricas y advertencias de negocio
+
+> El cierre de la Fase 4 queda materializado con el script `src/pipeline/streamview_phase4.py`, que genera los artefactos del dashboard a partir del modelo validado y mantiene el proyecto reproducible desde el entorno Miniconda.
 
 ---
 

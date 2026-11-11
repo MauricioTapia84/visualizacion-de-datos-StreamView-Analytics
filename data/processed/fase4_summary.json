@@ -1,0 +1,22 @@
+{
+  "filas_catalogo": 32000,
+  "tipos": [
+    "Movie",
+    "TV Show"
+  ],
+  "score_promedio": 0.2728180707788928,
+  "top_titulo": "The Late Show with Stephen Colbert",
+  "metrics": {
+    "regression": {
+      "mae": 7.173195864378462e-16,
+      "rmse": 1.000427032446725e-15,
+      "r2": 1.0
+    },
+    "classification": {
+      "accuracy": 0.98015625,
+      "precision_weighted": 0.980322874293369,
+      "recall_weighted": 0.98015625,
+      "f1_weighted": 0.9801943698377096
+    }
+  }
+}
