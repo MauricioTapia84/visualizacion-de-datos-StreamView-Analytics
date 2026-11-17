@@ -1,0 +1,241 @@
+{
+  "status": "PASS",
+  "sources": {
+    "movies": "data/raw/netflix_movies_detailed_up_to_2025.csv",
+    "tv_shows": "data/raw/netflix_tv_shows_detailed_up_to_2025.csv",
+    "combined_rows": 32000,
+    "combined_unique_show_id": 31594,
+    "combined_duplicate_show_id_rows": 406,
+    "combined_duplicate_show_id_values": 406,
+    "cross_type_show_id_collisions": 397
+  },
+  "id_strategy": {
+    "base": "type_prefix + show_id",
+    "same_type_collision_resolution": "append deterministic SHA-256 fragment of the complete source row",
+    "same_type_duplicate_base_id_values": 9,
+    "missing_show_id_count": 0,
+    "stable_id_unique_count": 32000
+  },
+  "outputs": {
+    "dashboard_contenidos_final.csv": {
+      "rows": 32000,
+      "columns": 12,
+      "field_names": [
+        "id_contenido",
+        "titulo",
+        "tipo",
+        "generos",
+        "pais",
+        "idioma",
+        "anio_publicacion",
+        "popularidad",
+        "votos",
+        "valoracion_promedio",
+        "presupuesto",
+        "ingresos"
+      ],
+      "unique_id_contenido": 32000,
+      "duplicate_id_contenido": 0,
+      "duplicate_relation_rows": 0,
+      "nulls_by_field": {
+        "id_contenido": 0,
+        "titulo": 0,
+        "tipo": 0,
+        "generos": 1081,
+        "pais": 2263,
+        "idioma": 0,
+        "anio_publicacion": 0,
+        "popularidad": 0,
+        "votos": 0,
+        "valoracion_promedio": 0,
+        "presupuesto": 27153,
+        "ingresos": 26355
+      },
+      "unique_relation_values": null
+    },
+    "dashboard_generos.csv": {
+      "rows": 65900,
+      "columns": 9,
+      "field_names": [
+        "id_contenido",
+        "genero_individual",
+        "tipo",
+        "popularidad",
+        "votos",
+        "valoracion_promedio",
+        "anio_publicacion",
+        "idioma",
+        "pais"
+      ],
+      "unique_id_contenido": 30919,
+      "duplicate_id_contenido": 34981,
+      "duplicate_relation_rows": 0,
+      "nulls_by_field": {
+        "id_contenido": 0,
+        "genero_individual": 0,
+        "tipo": 0,
+        "popularidad": 0,
+        "votos": 0,
+        "valoracion_promedio": 0,
+        "anio_publicacion": 0,
+        "idioma": 0,
+        "pais": 2631
+      },
+      "unique_relation_values": 28
+    },
+    "dashboard_paises.csv": {
+      "rows": 37636,
+      "columns": 9,
+      "field_names": [
+        "id_contenido",
+        "pais_individual",
+        "tipo",
+        "popularidad",
+        "votos",
+        "valoracion_promedio",
+        "anio_publicacion",
+        "idioma",
+        "generos"
+      ],
+      "unique_id_contenido": 29737,
+      "duplicate_id_contenido": 7899,
+      "duplicate_relation_rows": 0,
+      "nulls_by_field": {
+        "id_contenido": 0,
+        "pais_individual": 0,
+        "tipo": 0,
+        "popularidad": 0,
+        "votos": 0,
+        "valoracion_promedio": 0,
+        "anio_publicacion": 0,
+        "idioma": 0,
+        "generos": 484
+      },
+      "unique_relation_values": 147
+    }
+  },
+  "financial": {
+    "movies_total": 16000,
+    "tv_shows_total": 16000,
+    "movies_with_budget": 4847,
+    "movies_with_revenue": 5645,
+    "movies_with_both_financial_fields": 3540,
+    "movie_financial_coverage_percent": 22.125,
+    "tv_shows_with_valid_budget": 0,
+    "tv_shows_with_valid_revenue": 0,
+    "source_zero_counts_converted_to_null": {
+      "budget": 11153,
+      "revenue": 10355
+    },
+    "final_zero_counts": {
+      "budget": 0,
+      "revenue": 0
+    }
+  },
+  "top_10_generos": [
+    {
+      "valor": "Drama",
+      "count_distinct_id_contenido": 14772
+    },
+    {
+      "valor": "Comedy",
+      "count_distinct_id_contenido": 9109
+    },
+    {
+      "valor": "Animation",
+      "count_distinct_id_contenido": 4069
+    },
+    {
+      "valor": "Thriller",
+      "count_distinct_id_contenido": 3769
+    },
+    {
+      "valor": "Action",
+      "count_distinct_id_contenido": 3239
+    },
+    {
+      "valor": "Crime",
+      "count_distinct_id_contenido": 3203
+    },
+    {
+      "valor": "Family",
+      "count_distinct_id_contenido": 3014
+    },
+    {
+      "valor": "Mystery",
+      "count_distinct_id_contenido": 2575
+    },
+    {
+      "valor": "Romance",
+      "count_distinct_id_contenido": 2571
+    },
+    {
+      "valor": "Horror",
+      "count_distinct_id_contenido": 2425
+    }
+  ],
+  "top_10_paises": [
+    {
+      "valor": "United States of America",
+      "count_distinct_id_contenido": 10956
+    },
+    {
+      "valor": "Japan",
+      "count_distinct_id_contenido": 2871
+    },
+    {
+      "valor": "United Kingdom",
+      "count_distinct_id_contenido": 2609
+    },
+    {
+      "valor": "China",
+      "count_distinct_id_contenido": 2399
+    },
+    {
+      "valor": "South Korea",
+      "count_distinct_id_contenido": 2174
+    },
+    {
+      "valor": "France",
+      "count_distinct_id_contenido": 2108
+    },
+    {
+      "valor": "Canada",
+      "count_distinct_id_contenido": 1716
+    },
+    {
+      "valor": "Germany",
+      "count_distinct_id_contenido": 1160
+    },
+    {
+      "valor": "India",
+      "count_distinct_id_contenido": 912
+    },
+    {
+      "valor": "Spain",
+      "count_distinct_id_contenido": 822
+    }
+  ],
+  "checks": {
+    "source_has_32000_rows": true,
+    "source_has_16000_movies": true,
+    "source_has_16000_tv_shows": true,
+    "content_has_exactly_32000_rows": true,
+    "content_has_one_row_per_content": true,
+    "content_has_no_duplicate_ids": true,
+    "content_has_required_columns_only": true,
+    "content_has_no_predictive_columns": true,
+    "genre_relations_have_no_duplicates": true,
+    "country_relations_have_no_duplicates": true,
+    "tv_shows_have_no_valid_budget": true,
+    "tv_shows_have_no_valid_revenue": true,
+    "financial_zeros_are_not_exported_as_zero": true,
+    "all_source_rows_have_show_id": true,
+    "all_output_ids_are_unique": true
+  },
+  "failed_checks": [],
+  "predictive_scope": {
+    "modeling_exports_in_content_source": false,
+    "note": "Las predicciones experimentales existentes no se incluyen en esta capa. El pipeline predictivo actual predice las 32000 filas completas, mezclando filas usadas en entrenamiento y prueba; además, indice_exito se construye con variables que también se entregan al modelo."
+  }
+}

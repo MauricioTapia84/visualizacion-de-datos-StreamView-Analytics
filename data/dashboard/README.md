@@ -1,20 +1,25 @@
-# Carpeta de exports del dashboard
+# Fuentes de datos del dashboard
 
-Esta carpeta está destinada a guardar los CSVs optimizados para consumo en Data Studio / Looker Studio y para la capa analítica del dashboard final.
+La capa final y reproducible para Looker Studio se genera desde los CSV originales ejecutando:
 
-## Archivos esperados
+```bash
+python3 src/pipeline/fuentes_dashboard_finales.py
+```
 
-- `dashboard_ejecutivo.csv`: resumen ejecutivo con KPIs y agregaciones por tipo/categoría.
-- `dashboard_contenidos.csv`: detalle analítico por contenido, con ranking y comparativas por género/país/idioma.
-- `dashboard_predicciones.csv`: predicciones y scores del modelo, para priorización de decisión.
+## Fuentes finales
 
-## Regla de uso
+- `dashboard_contenidos_final.csv`: una fila por contenido; fuente principal del dashboard.
+- `dashboard_generos.csv`: una fila por relación contenido-género; fuente para rankings y análisis de géneros.
+- `dashboard_paises.csv`: una fila por relación contenido-país; fuente para mapas y análisis geográfico.
 
-- El dashboard descriptivo y el dashboard predictivo deben mantenerse separados por objetivo y sentido analítico.
-- `dashboard_ejecutivo` debe centrarse en KPIs y resúmenes.
-- `dashboard_contenidos` debe facilitar el análisis de catálogo.
-- `dashboard_predicciones` debe apoyar decisiones de adquisición y priorización.
+El detalle de filas, columnas, identificadores, nulos, cobertura financiera y checks se encuentra en `dashboard_validation.json` y `dashboard_validation.md`. La descripción reproducible del proceso está en `README_fuentes_finales.md`.
 
-## Nota
+## Identificadores y finanzas
 
-Esta carpeta debe contener únicamente artefactos exportados y listos para BI, no notebooks ni código de modelado.
+`id_contenido` se construye desde `type` y `show_id`. Si el par se repite, se añade un hash determinista de la fila original; nunca se usa un número secuencial dependiente del orden.
+
+`budget` y `revenue` se conservan únicamente para Movies, se renombran como `presupuesto` e `ingresos`, y los ceros interpretados como ausencia se exportan como NULL/campo vacío. TV Shows queda siempre sin valores financieros válidos.
+
+## Modelado experimental
+
+Los archivos históricos `dashboard_contenidos.csv`, `dashboard_predicciones.csv` y `dashboard_ejecutivo.csv` se mantienen separados de la capa final. El modelado predictivo no se elimina, pero sus predicciones no forman parte de `dashboard_contenidos_final.csv`.

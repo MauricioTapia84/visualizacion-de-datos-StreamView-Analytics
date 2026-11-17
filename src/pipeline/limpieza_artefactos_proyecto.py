@@ -10,6 +10,12 @@ CANONICAL_DASHBOARD_FILES = {
     'dashboard_ejecutivo.csv',
     'dashboard_contenidos.csv',
     'dashboard_predicciones.csv',
+    'dashboard_contenidos_final.csv',
+    'dashboard_generos.csv',
+    'dashboard_paises.csv',
+    'dashboard_validation.json',
+    'dashboard_validation.md',
+    'README_fuentes_finales.md',
     'README.md',
 }
 
