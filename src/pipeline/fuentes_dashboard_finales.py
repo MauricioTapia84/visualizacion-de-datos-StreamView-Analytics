@@ -476,7 +476,7 @@ def write_readme(report: dict[str, Any]) -> None:
         "",
         "El detalle reproducible está en `dashboard_validation.json` y `dashboard_validation.md`.",
         "",
-        "El modelado predictivo existente no se elimina, pero permanece separado. Sus predicciones actuales se generan sobre las 32.000 filas y mezclan observaciones de entrenamiento y prueba; además, `indice_exito` usa variables que también recibe el modelo.",
+        "El modelado predictivo existente no se elimina, pero permanece separado en `data/processed/predictive/`. Sus predicciones actuales se generan sobre las 32.000 filas y mezclan observaciones de entrenamiento y prueba; además, `indice_exito` usa variables que también recibe el modelo.",
     ]
     README_FINAL.write_text("\n".join(lines) + "\n", encoding="utf-8")
 

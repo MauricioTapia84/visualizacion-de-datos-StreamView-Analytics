@@ -26,7 +26,7 @@ Los IDs normales usan `Movie_<show_id>` o `TV_<show_id>`. Cuando el par tipo/sho
 - Cobertura de ambos campos sobre 16.000 Movies: **22.125%**.
 - TV Shows con presupuesto válido: **0**.
 - TV Shows con ingresos válidos: **0**.
-- Ceros de origen convertidos a NULL: `{'budget': 11153, 'revenue': 10355}`.
+- Ceros de origen convertidos a NULL: `{'revenue': 10355, 'budget': 11153}`.
 
 ## Top 10 por contenido distinto
 

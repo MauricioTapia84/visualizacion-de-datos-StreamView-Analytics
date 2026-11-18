@@ -9,11 +9,11 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 PROCESSED_DIR = ROOT / 'data' / 'processed'
-DASHBOARD_DIR = ROOT / 'data' / 'dashboard'
+PREDICTIVE_OUTPUT_DIR = PROCESSED_DIR / 'predictive'
 MODELS_DIR = ROOT / 'models'
 IMAGES_DIR = ROOT / 'images'
 
-for directory in [DASHBOARD_DIR, IMAGES_DIR]:
+for directory in [PREDICTIVE_OUTPUT_DIR, IMAGES_DIR]:
     directory.mkdir(parents=True, exist_ok=True)
 
 
@@ -57,7 +57,7 @@ def validate_final_holdout(train: pd.DataFrame, test: pd.DataFrame) -> dict:
         'leakage_check': 'OK',
     }
 
-    (DASHBOARD_DIR / 'final_validation_summary.json').write_text(
+    (PREDICTIVE_OUTPUT_DIR / 'final_validation_summary.json').write_text(
         json.dumps(validation, ensure_ascii=False, indent=2),
         encoding='utf-8',
     )
@@ -104,7 +104,7 @@ def compute_business_metrics(test: pd.DataFrame, model) -> dict:
 
     top_titles = ordered.head(10).copy()
     top_titles['rank'] = np.arange(1, len(top_titles) + 1)
-    top_titles.to_csv(DASHBOARD_DIR / 'top_business_recommendations.csv', index=False)
+    top_titles.to_csv(PREDICTIVE_OUTPUT_DIR / 'top_business_recommendations.csv', index=False)
 
     return ranking
 
@@ -191,14 +191,14 @@ def export_decision_summary(model, train: pd.DataFrame, test: pd.DataFrame) -> N
         'status': 'Proyecto listo para entrega final con validación en test, métricas de negocio y explicabilidad',
     }
 
-    (DASHBOARD_DIR / 'decision_summary.json').write_text(
+    (PREDICTIVE_OUTPUT_DIR / 'decision_summary.json').write_text(
         json.dumps(summary, ensure_ascii=False, indent=2),
         encoding='utf-8',
     )
 
-    rankings = pd.read_csv(DASHBOARD_DIR / 'top_business_recommendations.csv')
+    rankings = pd.read_csv(PREDICTIVE_OUTPUT_DIR / 'top_business_recommendations.csv')
     rankings = rankings.head(20)
-    rankings.to_csv(DASHBOARD_DIR / 'top_business_recommendations.csv', index=False)
+    rankings.to_csv(PREDICTIVE_OUTPUT_DIR / 'top_business_recommendations.csv', index=False)
 
 
 def main() -> None:
@@ -207,9 +207,9 @@ def main() -> None:
     export_decision_summary(model, train, test)
 
     print('Validación final en test: OK')
-    print('Métricas de negocio:', json.dumps(json.loads((DASHBOARD_DIR / 'decision_summary.json').read_text(encoding='utf-8'))['business_metrics'], ensure_ascii=False))
-    print('Analítica financiera:', json.dumps(json.loads((DASHBOARD_DIR / 'decision_summary.json').read_text(encoding='utf-8'))['budget_revenue_analysis'], ensure_ascii=False))
-    print('Explicabilidad:', json.dumps(json.loads((DASHBOARD_DIR / 'decision_summary.json').read_text(encoding='utf-8'))['explainability'], ensure_ascii=False))
+    print('Métricas de negocio:', json.dumps(json.loads((PREDICTIVE_OUTPUT_DIR / 'decision_summary.json').read_text(encoding='utf-8'))['business_metrics'], ensure_ascii=False))
+    print('Analítica financiera:', json.dumps(json.loads((PREDICTIVE_OUTPUT_DIR / 'decision_summary.json').read_text(encoding='utf-8'))['budget_revenue_analysis'], ensure_ascii=False))
+    print('Explicabilidad:', json.dumps(json.loads((PREDICTIVE_OUTPUT_DIR / 'decision_summary.json').read_text(encoding='utf-8'))['explainability'], ensure_ascii=False))
 
 
 if __name__ == '__main__':

@@ -35,4 +35,4 @@ Estas fuentes se generan ejecutando `python3 src/pipeline/fuentes_dashboard_fina
 
 El detalle reproducible está en `dashboard_validation.json` y `dashboard_validation.md`.
 
-El modelado predictivo existente no se elimina, pero permanece separado. Sus predicciones actuales se generan sobre las 32.000 filas y mezclan observaciones de entrenamiento y prueba; además, `indice_exito` usa variables que también recibe el modelo.
+El modelado predictivo existente no se elimina, pero permanece separado en `data/processed/predictive/`. Sus predicciones actuales se generan sobre las 32.000 filas y mezclan observaciones de entrenamiento y prueba; además, `indice_exito` usa variables que también recibe el modelo.

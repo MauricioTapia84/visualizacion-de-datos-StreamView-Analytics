@@ -124,8 +124,8 @@
     "tv_shows_with_valid_budget": 0,
     "tv_shows_with_valid_revenue": 0,
     "source_zero_counts_converted_to_null": {
-      "budget": 11153,
-      "revenue": 10355
+      "revenue": 10355,
+      "budget": 11153
     },
     "final_zero_counts": {
       "budget": 0,

@@ -7,16 +7,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 CANONICAL_DASHBOARD_FILES = {
-    'dashboard_ejecutivo.csv',
-    'dashboard_contenidos.csv',
-    'dashboard_predicciones.csv',
     'dashboard_contenidos_final.csv',
     'dashboard_generos.csv',
     'dashboard_paises.csv',
     'dashboard_validation.json',
     'dashboard_validation.md',
     'README_fuentes_finales.md',
-    'README.md',
 }
 
 CANONICAL_DATA_FILES = {
@@ -68,9 +64,8 @@ def clean_dashboard_exports(dashboard_dir: Path) -> list[Path]:
             continue
         if path.name in CANONICAL_DASHBOARD_FILES:
             continue
-        if path.suffix.lower() == '.csv' or path.name.endswith('_old.csv') or path.name.startswith('metrics_'):
-            path.unlink(missing_ok=True)
-            removed.append(path)
+        path.unlink(missing_ok=True)
+        removed.append(path)
     return removed
 
 

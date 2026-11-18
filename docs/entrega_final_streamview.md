@@ -53,11 +53,14 @@ Se valida explícitamente la utilidad de `budget` y `revenue` como señales de c
 
 La base de decisión se conecta con la capa BI mediante CSVs optimizados en `data/dashboard/`:
 
-- `dashboard_ejecutivo.csv`
-- `dashboard_contenidos.csv`
-- `dashboard_predicciones.csv`
-- `decision_summary.json`
-- `top_business_recommendations.csv`
+- `dashboard_contenidos_final.csv`
+- `dashboard_generos.csv`
+- `dashboard_paises.csv`
+- `dashboard_validation.json`
+- `dashboard_validation.md`
+- `README_fuentes_finales.md`
+
+Las exportaciones predictivas históricas se conservan en `data/processed/predictive/` y no forman parte de las fuentes de Looker Studio.
 
 Esto permite mantener una separación clara entre:
 
@@ -71,7 +74,7 @@ Esto permite mantener una separación clara entre:
 2. Ejecutar validación del target
 3. Ejecutar el modelo final
 4. Ejecutar `src/pipeline/entrega_final_proyecto.py`
-5. Revisar los CSVs generados en `data/dashboard/`
+5. Revisar las métricas predictivas en `data/processed/predictive/` y las fuentes finales en `data/dashboard/`
 6. Usar los resultados para la capa BI y la narrativa final
 
 ## 8. Conclusión

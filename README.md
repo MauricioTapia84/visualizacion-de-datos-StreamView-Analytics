@@ -92,11 +92,17 @@ data/
     catalogo_streamview.csv
     train_procesado.csv
     test_procesado.csv
+    predictive/
+      decision_summary.json
+      final_validation_summary.json
+      top_business_recommendations.csv
   dashboard/
-    dashboard_ejecutivo.csv
-    dashboard_contenidos.csv
-    dashboard_predicciones.csv
-    README.md
+    dashboard_contenidos_final.csv
+    dashboard_generos.csv
+    dashboard_paises.csv
+    dashboard_validation.json
+    dashboard_validation.md
+    README_fuentes_finales.md
 models/
   best_regression_model.pkl
   best_classifier_model.pkl

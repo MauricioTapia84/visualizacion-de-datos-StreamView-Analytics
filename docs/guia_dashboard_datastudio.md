@@ -133,10 +133,15 @@ La vista principal debe estar pensada para el Gerente de Contenidos y Adquisici√
 ```text
 data/
   dashboard/
-    dashboard_ejecutivo.csv
-    dashboard_contenidos.csv
-    dashboard_predicciones.csv
-    README.md
+    dashboard_contenidos_final.csv
+    dashboard_generos.csv
+    dashboard_paises.csv
+    dashboard_validation.json
+    dashboard_validation.md
+    README_fuentes_finales.md
+
+  processed/predictive/
+    # Exportaciones hist√≥ricas del modelado, no fuentes de Looker Studio
 
 images/
   dashboard_streamview.html
